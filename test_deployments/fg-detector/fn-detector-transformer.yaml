@@ -1,0 +1,29 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: fg-detector
+  namespace: kubeflow-user-example-com
+spec:
+  predictor:
+    model:
+      name: "fg-detector"
+      modelFormat:
+        name: tensorflow
+      storageUri: "pvc://fn-detector-model-storage"
+      ports:
+       - containerPort: 9000
+         name: h2c
+         protocol: TCP
+  transformer:
+    containers:
+      - image: docker.io/capoolebugchat/fg-detector-transformer:restapi
+        name: kserve-container
+        command:
+          - "python"
+          - "-m"
+          - "fg_detector.serving_model"
+        args:
+          - --model_name
+          - fg-detector
+          - --protocol
+          - grpc-v2

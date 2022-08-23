@@ -1,0 +1,16 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "keyword-spotter-mo-grpc"
+  namespace: kubeflow-user-example-com
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: tensorflow    
+      storageUri: "pvc://keyword-spotter-model-storage/v1/saved_model"
+      ports:
+        - containerPort: 9000
+          host: 0.0.0.0
+          name: h2c
+          protocol: TCP

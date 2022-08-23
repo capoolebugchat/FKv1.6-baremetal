@@ -1,0 +1,14 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "keyword-spotter-mo-triton"
+  namespace: "kubeflow-user-example-com"
+spec:
+  predictor:
+    triton:
+      runtimeVersion: 20.10-py3
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
+      storageUri: "pvc://keyword-spotter-model-storage/v1/saved_model"

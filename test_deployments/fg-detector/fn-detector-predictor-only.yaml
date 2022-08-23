@@ -1,0 +1,9 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "fn-detector-model-infer"
+  namespace: "default"
+spec:
+  predictor:
+    tensorflow:
+      storageUri: "pvc://fn-detector-model-storage"

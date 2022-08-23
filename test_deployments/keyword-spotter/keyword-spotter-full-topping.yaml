@@ -1,0 +1,18 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: keyword-spotter-b-as
+  namespace: kubeflow-user-example-com
+  annotations:
+    autoscaling.knative.dev/target: "1000"
+spec:
+  predictor:
+    timeout: 60
+    batcher:
+      maxBatchSize: 20
+      maxLatency: 500
+    model:
+      name: "keyword-spotter-b-as"
+      modelFormat:
+        name: tensorflow
+      storageUri: "pvc://keyword-spotter-model-storage/v1/saved_model"

@@ -1,0 +1,23 @@
+apiVersion: machinelearning.seldon.io/v1alpha2
+kind: SeldonDeployment
+metadata:
+  name: tfserving
+  namespace: kubeflow-user-example-com
+spec:
+  name: fg-detector-deployment
+  predictors:
+  - graph:
+      children: []
+      implementation: TENSORFLOW_SERVER
+      modelUri: pvc://fn-detector-model-storage
+      name: fg-detector-model
+      parameters:
+        - name: signature_name
+          type: STRING
+          value: predict
+        - name: model_name
+          type: STRING
+          value: fg-detector
+    name: default
+    replicas: 1
+

@@ -1,0 +1,9 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "keyword-spotter-model-only"
+  namespace: "kubeflow-user-example-com"
+spec:
+  predictor:
+    tensorflow:
+      storageUri: "pvc://keyword-spotter-model-storage/v1/saved_model"

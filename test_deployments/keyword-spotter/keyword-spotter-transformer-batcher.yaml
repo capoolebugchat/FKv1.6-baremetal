@@ -1,0 +1,25 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: keyword-spotter-service
+  namespace: kubeflow-user-example-com
+spec:
+  predictor:
+    batcher:
+      maxBatchSize: 10
+      maxLatency: 50
+    model:
+      name: "keyword-spotter"
+      modelFormat:
+        name: tensorflow
+      storageUri: "pvc://keyword-spotter-model-storage/v1/saved_model"
+  transformer:
+    containers:
+      - image: docker.io/capoolebugchat/kws-transformer:1.0.0rc2
+        name: kserve-container
+        command:
+          - "python"
+          - "KWSTransformer"
+        args:
+          - --model_name
+          - "keyword-spotter"

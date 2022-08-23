@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: fn-detector-model-storage-volume
+  labels:
+    type: standard
+    language: tensorflow
+    service: tfserving
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/home/quanla/v1/saved_model"

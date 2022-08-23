@@ -1,0 +1,25 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: keyword-spotter-service
+  namespace: kubeflow-user-example-com
+spec:
+  predictor:
+    logger:
+      mode: all
+      url: http://broker-ingress.knative-eventing.svc.cluster.local/default/default
+    model:
+      name: "keyword-spotter-service"
+      modelFormat:
+        name: tensorflow
+      storageUri: "pvc://keyword-spotter-model-storage/v1/saved_model"
+  transformer:
+    containers:
+      - image: docker.io/capoolebugchat/keyword-spotter-transformer:down-protobuf
+        name: kserve-container
+        command:
+          - "python"
+          - "transformer.py"
+        args:
+          - --model_name
+          - "keyword-spotter-service"

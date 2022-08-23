@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fn-detector-model-storage
+  namespace: kubeflow-user-example-com
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  selector: 
+    matchLabels: 
+      type: standard
+      language: tensorflow
+      service: tfserving
